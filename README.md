@@ -10,4 +10,5 @@ Generated XML for each user described in the provided CSV. Only the "User" secti
 # Note
 
 Filezilla Server does not require every option of a user to be provided, so neglect the unneeded can help the server apply its defaults.
+
 And yes, f**k those indentations. The server will deal with it anyway.
