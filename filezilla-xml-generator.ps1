@@ -1,21 +1,21 @@
 Function Generate-Filezilla-XML([String] $csvfile, [String] $extraxml, [String] $outputxml) {	
 	##### Functions #####
 	Function generate-xml([String] $usr, [String] $pwds_sha, [String] $salt) {
-        #convert salt to XML syntax
-        $saltxml = ConvertTo-Xml $salt -As Stream
-        #use Split() to remove XML markers from ConverTo-Xml
-        $split_pattern = "<Object Type=`"System.String`">","</Object>"
-        $split_option = [System.StringSplitOptions]::RemoveEmptyEntries
+		#convert salt to XML syntax
+		$saltxml = ConvertTo-Xml $salt -As Stream
+		#use Split() to remove XML markers from ConverTo-Xml
+		$split_pattern = "<Object Type=`"System.String`">","</Object>"
+		$split_option = [System.StringSplitOptions]::RemoveEmptyEntries
 		$saltdata = $saltxml[2].Split($split_pattern, $split_option)
 
-        #generate XML using the dumbest but intuitive way
+		#generate XML using the dumbest but intuitive way
 		"<User Name=`"" + $usr + "`">`n <Option Name=`"Pass`">" + $pwds_sha + "</Option>`n <Option Name=`"Salt`">" + $saltdata + "</Option>" `
 		| Out-File -Append $outputxml
 		
-        #append extraxml and ending marker
-        	if (!([string]::IsNullOrWhiteSpace($extraxml))) {
-		Get-Content $extraxml  | Out-File -Append $outputxml
-        }
+		#append extraxml and ending marker
+		if (!([string]::IsNullOrWhiteSpace($extraxml))) {
+			Get-Content $extraxml  | Out-File -Append $outputxml
+		}
 		"</User>" | Out-File -Append $outputxml
 	}
 
@@ -35,7 +35,7 @@ Function Generate-Filezilla-XML([String] $csvfile, [String] $extraxml, [String] 
 	
 	$list = Get-Content $csvfile
 	$list = $list | Where-Object{$_} #delete empty lines
-	
+
 	foreach ($member in $list) {
 		$salt = [System.Web.Security.Membership]::GeneratePassword(64,16)
 		$data = $member.Split(",") #data[0] is username, data[1] is plain password
