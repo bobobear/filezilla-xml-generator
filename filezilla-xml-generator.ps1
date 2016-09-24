@@ -1,5 +1,5 @@
 Function Generate-Filezilla-XML([String] $csvfile, [String] $extraxml, [String] $outputxml) {	
-    ##### Functions #####
+	##### Functions #####
 	Function generate-xml([String] $usr, [String] $pwds_sha, [String] $salt) {
         #convert salt to XML syntax
         $saltxml = ConvertTo-Xml $salt -As Stream
@@ -9,7 +9,6 @@ Function Generate-Filezilla-XML([String] $csvfile, [String] $extraxml, [String] 
 		$saltdata = $saltxml[2].Split($split_pattern, $split_option)
 
         #generate XML using the dumbest but intuitive way
-		
 		"<User Name=`"" + $usr + "`">`n <Option Name=`"Pass`">" + $pwds_sha + "</Option>`n <Option Name=`"Salt`">" + $saltdata + "</Option>" `
 		| Out-File -Append $outputxml
 		
@@ -20,7 +19,7 @@ Function Generate-Filezilla-XML([String] $csvfile, [String] $extraxml, [String] 
 		"</User>" | Out-File -Append $outputxml
 	}
 
-    #Function get-sha512 originates from Get-StringHash by Jon Gurgul
+	#Function get-sha512 originates from Get-StringHash by Jon Gurgul
 	#https://gallery.technet.microsoft.com/scriptcenter/Get-StringHash-aa843f71
 	#http://jongurgul.com/blog/get-stringhash-get-filehash/
 	Function get-sha512([String] $String,$HashName = "SHA512") {
@@ -31,7 +30,7 @@ Function Generate-Filezilla-XML([String] $csvfile, [String] $extraxml, [String] 
 		$StringBuilder.ToString()
 	}	
 
-    #main goes here
+	#main goes here
 	Add-Type -AssemblyName System.Web #System.Web.Security.Membership.GeneratePassword()
 	
 	$list = Get-Content $csvfile
