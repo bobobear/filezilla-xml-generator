@@ -9,14 +9,14 @@ Function Generate-Filezilla-XML([String] $csvfile, [String] $extraxml, [String] 
 		$saltdata = $saltxml[2].Split($split_pattern, $split_option)
 
         #generate XML using the dumbest but intuitive way
-		(
-		"<User Name=`"" + $usr + "`">`
-		<Option Name=`"Pass`">" + $pwds_sha + "</Option>`
-		<Option Name=`"Salt`">" + $saltdata + "</Option>"
-		) | Out-File -Append $outputxml
+		
+		"<User Name=`"" + $usr + "`">`n <Option Name=`"Pass`">" + $pwds_sha + "</Option>`n <Option Name=`"Salt`">" + $saltdata + "</Option>" `
+		| Out-File -Append $outputxml
 		
         #append extraxml and ending marker
+        	if (!([string]::IsNullOrWhiteSpace($extraxml))) {
 		Get-Content $extraxml  | Out-File -Append $outputxml
+        }
 		"</User>" | Out-File -Append $outputxml
 	}
 
