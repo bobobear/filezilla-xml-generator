@@ -1,4 +1,4 @@
-Function Generate-Filezilla-XML([String] $csvfile, [String] $extraxml, [String] $outputxml = "out.xml") {	
+Function Generate-Filezilla-XML([String] $csvfile, [String] $extraxml = $null, [String] $outputxml = "out.xml") {	
 	##### Functions #####
 	Function generate-xml([String] $usr, [String] $pwds_sha, [String] $salt) {
 		#convert salt to XML syntax
